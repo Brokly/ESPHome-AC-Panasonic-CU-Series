@@ -9,6 +9,9 @@ CS-C95KE / CU-C95KE<br>
 CS-C125KE / CU-C125KE<br>
 and others...
 
+![image](https://github.com/user-attachments/assets/65d0cf1c-f14a-4d0c-a6ea-52152536e391)
+
+Все кондиционеры с таким пультом, скорее всего, будут работать с этим компонентом.
 
 Настройки компонента
 ```yaml
