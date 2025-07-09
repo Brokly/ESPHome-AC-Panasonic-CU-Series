@@ -1,1 +1,101 @@
+# это пример, в нем нет настроек сети, дополнте сами
+# тут используется аналоговый(резистивны датчик состояния работы сондиционера)
+
+external_components:
+  - source:
+      type: local
+      path: my_components     
+    components: [ panascu ]
+    refresh: 0s
+          
+esp8266:
+  board: esp01_1m
+  restore_from_flash: True
+
+preferences:
+  flash_write_interval: 1min
+
+
+one_wire:
+  - platform: gpio
+    pin: ${termo_sens}
+    
+remote_receiver:
+# 36 kHz
+  pin:
+    number: ${IR_in}
+    inverted: true
+    mode:
+      input: true
+  tolerance: 55%
+  id: ir_receiver
+  buffer_size: 2kb
+
+remote_transmitter:
+  carrier_duty_percent: 100%
+  pin:
+    number: ${IR_out}
+    inverted: False
+
+binary_sensor:
+# сенсоры состояний светододов кондицоннера
+  - platform: template
+    id: powfull_id
+    internal: true
+  - platform: template
+    id: pow_id
+    internal: true
+  - platform: template
+    id: eco_id
+    internal: true
+
+sensor:
+# датчик чтения состояния светодиодов кондея
+  - platform: adc
+    pin: ${analog_in}
+    update_interval: 70ms
+    accuracy_decimals: 2
+    id: ADC_id
+    #name: ADC_id
+    internal: true
+    filters:
+        - lambda: |-
+           bool pow=true;
+           bool eco=false;
+           bool pfull=false;
+           if(x<0.12){ // 1 вольт 
+              eco=true;
+           } else if(x<0.38){ // 2 вольт 
+              pfull=true;
+           } else if(x<0.9){ // 3 вольт 
+              //
+           } else {
+              pow=false;
+           }
+           if(pow!=id(pow_id).state){id(pow_id).publish_state(pow);}
+           if(eco!=id(eco_id).state){id(eco_id).publish_state(eco);}
+           if(pfull!=id(powfull_id).state){id(powfull_id).publish_state(pfull);}
+           return x;
+# датчик 18b20
+  - platform: dallas_temp
+    update_interval: $time_scan_termosensor 
+    id: temperature_id
+    name: $upper_devicename Temperature
+    filters:  
+      -  offset: ${temperature_offset}    
+
+climate:
+  - platform: panascu
+    name: ${upper_devicename} Climate
+    receiver_id: ir_receiver
+    heat_mode: true                 # поддержка режима обогрева
+    swing_add:                      # дополнительные опции люверсов
+       name: ${upper_devicename} Swing
+    sensor: temperature_id          # дополнительный датчик температуры
+    power_sens_id: pow_id           # сенсор режима вкл-выкл, крайне желательно 
+    power_full_sens_id: powfull_id  # сенсор режима POWERFULL, в отсутствии - пытается эмулировать программно, может не совпадать период активности режима
+    eco_sens_id: eco_id             # сенсор режима эко, в отсутствии эмулируется программно
+    ir_retranslate: True            # флаг ретрансляции ик сигнала, используется при верехвате подключения ИК датчика кондиционера
+    show_action: True               # показывать аналитику текущего режима работы
+    restore_timeouf: 30s            # таймаут восстановление режима кондиционера после отключения питания, при отсутстви настройки режим не сохраняется
 
