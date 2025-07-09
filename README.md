@@ -55,6 +55,8 @@ climate:
 ![image](https://github.com/user-attachments/assets/942b1db8-65ed-4287-ad65-21b62f304886)
 
 Схема адаптера с питанием от кодиционера. Используется родной ИК датчик кондиционера, без ретрансляии. Без подключения сенсоров состояния:
+![image](https://github.com/user-attachments/assets/292abfd5-3b1b-4022-9127-8364ba547ddd)
+
 
 
 
