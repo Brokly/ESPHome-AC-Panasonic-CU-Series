@@ -1,5 +1,15 @@
 # ESPHome-AC-Panasonc-CU-Series
 
+EspHome component for Air Сonditioners:<br>
+CS-A73KE / CU-A73KE<br>
+CS-A93KE / CU-A93KE<br>
+CS-A123KE / CU-A123KE<br>
+CS-C75KE / CU-C75KE<br>
+CS-C95KE / CU-C95KE<br>
+CS-C125KE / CU-C125KE<br>
+and others...
+
+
 Настройки компонента
 ```yaml
 climate:
