@@ -1,4 +1,4 @@
-# ESPHome-AC-Panasonc-CU-Series
+# ESPHome-AC-Panasonic-CU-Series
 
 EspHome component for Air Сonditioners:<br>
 CS-A73KE / CU-A73KE<br>
