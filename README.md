@@ -20,7 +20,7 @@ climate:
     name: ${upper_devicename} Climate
     receiver_id: ir_receiver        # (required) приемник ИК сигнала
     heat_mode: true                 # (optional) поддержка режима обогрева
-    swing_add:                      # (optional) использовать дополнительные опции люверсов
+    swing_add:                      # (optional) использовать дополнительные опции люверс
        name: ${upper_devicename} Swing
     sensor: temperature_id          # (optional) дополнительный датчик температуры
     power_sens_id: pow_id           # (optional) сенсор режима вкл-выкл, крайне желательно 
