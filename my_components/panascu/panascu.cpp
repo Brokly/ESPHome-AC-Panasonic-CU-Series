@@ -171,8 +171,16 @@ namespace esphome
                            if(this->mode==climate::CLIMATE_MODE_OFF){
                                if(this->oldMode!=climate::CLIMATE_MODE_OFF){
                                   this->mode=this->oldMode;
-                               } else { // так исправляем колизию режима, просто вырубаем кондей
-                                  this->oldMode=climate::CLIMATE_MODE_COOL;
+                               } else { // так исправляем колизию режима, кондей можно включить кнопкой на нем
+                                  
+                                  // так кондей покажет, что встал в авто, с кнопки обычно ставится режим АВТО
+                                  this->mode=climate::CLIMATE_MODE_AUTO;
+                                  this->oldMode=climate::CLIMATE_MODE_OFF;
+                                  this->target_temperature=PANAAC_TEMP_AUTO;
+                                  
+                                  // так кондей прнудительно отключится
+                                  //this->oldMode=climate::CLIMATE_MODE_COOL; 
+                                  
                                   this->sendFull=true;
                                }
                                needPub=true;
@@ -501,10 +509,10 @@ namespace esphome
                 if(this->preset==climate::CLIMATE_PRESET_NONE){
                     if(oldPreset==climate::CLIMATE_PRESET_ECO){
                         buff[0]=P_ECO;                        
-                        oldPreset=climate::CLIMATE_PRESET_ECO;
+                        oldPreset=climate::CLIMATE_PRESET_NONE;
                     } else if(oldPreset==climate::CLIMATE_PRESET_BOOST){
                         buff[0]=P_PWRF;                        
-                        oldPreset=climate::CLIMATE_PRESET_BOOST;
+                        oldPreset=climate::CLIMATE_PRESET_NONE;
                     }
                     timerPWRF=0;
                 } else if(this->preset==climate::CLIMATE_PRESET_ECO){
